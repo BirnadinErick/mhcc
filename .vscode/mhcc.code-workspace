@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"rust-analyzer.checkOnSave.allTargets": false,
+		"js/ts.implicitProjectConfig.target": "ES2021",
+		"files.autoSave": "onFocusChange",
+		"css.lint.unknownAtRules": "ignore"
+	}
+}

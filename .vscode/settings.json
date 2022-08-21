@@ -1,0 +1,15 @@
+{
+	"rust-analyzer.checkOnSave.allTargets": false,
+	"js/ts.implicitProjectConfig.target": "ES2021",
+	"files.watcherExclude": {
+		"**/target/**/*": true
+	},
+	"search.exclude": {
+		"**/target": true,
+		"*lock.*": true
+	},
+	"files.autoSave": "onFocusChange",
+	"editor.fontFamily": "'Jetbrains Mono', monospace",
+	"editor.wordWrap": "bounded",
+	"editor.copyWithSyntaxHighlighting": false
+}
