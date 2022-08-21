@@ -14,8 +14,15 @@ const config = {
 			fallback: 'index.html'
 		})
 	},
+
 	prerender: {
 		default: true
+	},
+
+	vitePlugin: {
+		experimental: {
+			useVitePreprocess: true
+		}
 	}
 };
 
