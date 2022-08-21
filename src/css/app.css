@@ -12,4 +12,8 @@
         font-family: 'DM Serif Display';
         src: url('fonts/DMSerifDisplay.ttf');
     }
+@font-face {
+    font-family: 'Jetbrains Monon';
+    src: url('fonts/JetBrainsMono.ttf');
+}
 }
