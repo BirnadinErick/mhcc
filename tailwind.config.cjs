@@ -13,7 +13,8 @@ module.exports = {
 			},
 			fontFamily: {
 				sans: ['Noto Sans', ...defaultTheme.fontFamily.sans],
-				serif: ['DM Serif Display', ...defaultTheme.fontFamily.serif]
+				serif: ['DM Serif Display', ...defaultTheme.fontFamily.serif],
+				mono: ['Jetbrains Mono', ...defaultTheme.fontFamily.mono]
 			}
 		}
 	},
