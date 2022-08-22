@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 @layer base {
-    @font-face {
-        font-family: 'Noto Sans';
-        src: url('fonts/NotoSans.ttf');
-    }
+	@font-face {
+		font-family: 'Noto Sans';
+		src: url('fonts/NotoSans.ttf');
+	}
 
-    @font-face {
-        font-family: 'DM Serif Display';
-        src: url('fonts/DMSerifDisplay.ttf');
-    }
-@font-face {
-    font-family: 'Jetbrains Monon';
-    src: url('fonts/JetBrainsMono.ttf');
-}
+	@font-face {
+		font-family: 'DM Serif Display';
+		src: url('fonts/DMSerifDisplay.ttf');
+	}
+	@font-face {
+		font-family: 'Jetbrains Monon';
+		src: url('fonts/JetBrainsMono.ttf');
+	}
 }

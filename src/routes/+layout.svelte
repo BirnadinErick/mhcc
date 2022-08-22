@@ -1,7 +1,6 @@
 <script lang="ts">
-	// @ts-ignore: cannot find module using alias $lib
 	import SidebarItem from '$lib/components/SidebarItem.svelte';
-	import type SidebarItemType from 'src/lib/types/SidebarItemType';
+	import type SidebarItemType from '$lib/types/SidebarItemType';
 
 	import '../css/app.css';
 
