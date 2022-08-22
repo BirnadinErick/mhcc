@@ -1,5 +1,7 @@
 <script lang="ts">
+	import Notification from '$lib/components/Notification.svelte';
 	import SidebarItem from '$lib/components/SidebarItem.svelte';
+	import { NotificationCategory, type NotificationType } from '$lib/types/NotificationType';
 	import type SidebarItemType from '$lib/types/SidebarItemType';
 
 	import '../css/app.css';
@@ -8,7 +10,7 @@
 		{
 			tip: 'Home',
 			svg_val:
-				'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
+				'M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2',
 			loc: '/'
 		},
 		{
@@ -29,12 +31,42 @@
 			loc: '/instruments'
 		},
 		{
+			tip: 'Notifications',
+			svg_val:
+				'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9',
+			loc: '/notifications'
+		},
+		{
 			tip: 'Settings',
 			svg_val:
 				'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
 			loc: '/settings'
 		}
 	];
+
+	let notifications: Array<NotificationType> = [
+		{
+			category: NotificationCategory.danger,
+			data: 'Hello world, I am danger',
+			link: '/settings'
+		},
+		{
+			category: NotificationCategory.misc,
+			data: 'Hey there, you can ignore me',
+			link: '/'
+		},
+		{
+			category: NotificationCategory.success,
+			data: 'Successsfully transferred backups to cloud!',
+			link: ''
+		},
+		{
+			category: NotificationCategory.warning,
+			data: 'I am about to explode 💥',
+			link: '/stocks'
+		}
+	];
+	
 </script>
 
 <div class="h-screen w-screen overflow-hidden flex">
@@ -55,7 +87,15 @@
 			<slot />
 		</div>
 	</div>
-	<div class="bg-white w-72 px-8 py-16">
-		<h2 class="text-2xl font-serif">Notifications</h2>
+	<div class="bg-white w-72 px-8 py-16 select-none cursor-default">
+		<div class="flex justify-between">
+			<h2 class="text-2xl font-serif">Notifications</h2>
+			<span class="cursor-pointer"><a href="/notifications">👉</a></span>
+		</div>
+		<div class="cursor-pointer flex-col justify-evenly mt-4 space-y-3">
+			{#each notifications as notification}
+				<Notification {notification} />
+			{/each}
+		</div>
 	</div>
 </div>
