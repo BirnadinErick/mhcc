@@ -1,8 +1,11 @@
 <script lang="ts">
 	import Notification from '$lib/components/Notification.svelte';
 	import SidebarItem from '$lib/components/SidebarItem.svelte';
+	import TransitionPage from '$lib/components/TransitionPage.svelte';
 	import { NotificationCategory, type NotificationType } from '$lib/types/NotificationType';
 	import type SidebarItemType from '$lib/types/SidebarItemType';
+
+	import { page } from '$app/stores';
 
 	import '../css/app.css';
 
@@ -66,7 +69,6 @@
 			link: '/stocks'
 		}
 	];
-	
 </script>
 
 <div class="h-screen w-screen overflow-hidden flex">
@@ -83,9 +85,11 @@
 			</h3>
 		</div>
 
-		<div class="flex-auto overflow-y-auto">
-			<slot />
-		</div>
+		<main>
+			<TransitionPage url={$page.url}>
+				<slot />
+			</TransitionPage>
+		</main>
 	</div>
 	<div class="bg-white w-72 px-8 py-16 select-none cursor-default">
 		<div class="flex justify-between">
