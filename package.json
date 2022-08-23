@@ -35,6 +35,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@tauri-apps/api": "^1.0.2"
+		"@tauri-apps/api": "^1.0.2",
+		"gridjs": "^5.1.0",
+		"gridjs-svelte": "^2.1.1"
 	}
 }
