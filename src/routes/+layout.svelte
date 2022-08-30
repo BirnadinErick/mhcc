@@ -1,8 +1,6 @@
 <script lang="ts">
-	import Notification from '$lib/components/Notification.svelte';
 	import SidebarItem from '$lib/components/SidebarItem.svelte';
 	import TransitionPage from '$lib/components/TransitionPage.svelte';
-	import { NotificationCategory, type NotificationType } from '$lib/types/NotificationType';
 	import type SidebarItemType from '$lib/types/SidebarItemType';
 
 	import { page } from '$app/stores';
@@ -46,60 +44,18 @@
 			loc: '/settings'
 		}
 	];
-
-	let notifications: Array<NotificationType> = [
-		{
-			category: NotificationCategory.danger,
-			data: 'Hello world, I am danger',
-			link: '/settings'
-		},
-		{
-			category: NotificationCategory.misc,
-			data: 'Hey there, you can ignore me',
-			link: '/'
-		},
-		{
-			category: NotificationCategory.success,
-			data: 'Successsfully transferred backups to cloud!',
-			link: ''
-		},
-		{
-			category: NotificationCategory.warning,
-			data: 'I am about to explode 💥',
-			link: '/stocks'
-		}
-	];
 </script>
 
-<div class="h-screen w-screen overflow-hidden flex">
-	<div class="bg-green w-16 py-8 px-2 flex flex-col justify-center items-center">
+<main class="h-screen bg-slate-200 flex w-full cursor-default">
+	<nav
+		class="bg-green w-16 py-8 px-2 flex flex-col justify-center items-center overflow-y-auto overflow-x-hidden flex-shrink-0"
+	>
 		{#each sidebar_items as item}
 			<SidebarItem {item} />
 		{/each}
-	</div>
-	<div class="flex-auto bg-gray-200 pt-16 pb-8 p-16 flex flex-col overflow-hidden h-full ">
-		<div class="text-black  cursor-default select-none h-24">
-			<h1 class="font-serif text-5xl">Good Morning</h1>
-			<h3 class="text-medium mt-2 ml-1 capitalize text-gray-600">
-				Welcome to Mathagal Health Care Center 🏥
-			</h3>
-		</div>
+	</nav>
 
-		<main>
-			<TransitionPage url={$page.url}>
-				<slot />
-			</TransitionPage>
-		</main>
-	</div>
-	<div class="bg-white w-72 px-8 py-16 select-none cursor-default">
-		<div class="flex justify-between">
-			<h2 class="text-2xl font-serif">Notifications</h2>
-			<span class="cursor-pointer"><a href="/notifications">👉</a></span>
-		</div>
-		<div class="cursor-pointer flex-col justify-evenly mt-4 space-y-3">
-			{#each notifications as notification}
-				<Notification {notification} />
-			{/each}
-		</div>
-	</div>
-</div>
+	<TransitionPage url={$page.url}>
+		<slot />
+	</TransitionPage>
+</main>
