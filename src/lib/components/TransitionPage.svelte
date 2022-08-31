@@ -6,7 +6,7 @@
 </script>
 
 {#key url}
-<div class="flex-auto bg-gray-200 py-8 p-16 flex flex-col"
+<div class="flex-auto bg-gray-200 mt-2 ml-4 p-4 flex flex-col"
 in:fade={{  duration: 500, easing:cubicOut }}
 >
 <slot />
