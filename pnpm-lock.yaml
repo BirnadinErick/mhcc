@@ -15,6 +15,7 @@ specifiers:
   prettier-plugin-svelte: ^2.7.0
   svelte: ^3.44.0
   svelte-check: ^2.7.1
+  svelte-headless-table: ^0.13.3
   svelte-preprocess: ^4.10.7
   svelte-simple-datatables: ^0.2.3
   tailwindcss: ^3.1.8
@@ -26,8 +27,8 @@ dependencies:
   '@tauri-apps/api': 1.0.2
 
 devDependencies:
-  '@sveltejs/adapter-static': 1.0.0-next.39
-  '@sveltejs/kit': 1.0.0-next.451_fhgkwirxvgjw2igda6zmhiisma
+  '@sveltejs/adapter-static': 1.0.0-next.41
+  '@sveltejs/kit': 1.0.0-next.460_fhgkwirxvgjw2igda6zmhiisma
   '@typescript-eslint/eslint-plugin': 5.33.1_vsoshirnpb7xw6mr7xomgfas2i
   '@typescript-eslint/parser': 5.33.1_4rv7y5c6xz3vfxwhbrcxxi73bq
   autoprefixer: 10.4.8_postcss@8.4.16
@@ -39,6 +40,7 @@ devDependencies:
   prettier-plugin-svelte: 2.7.0_o3ioganyptcsrh6x4hnxvjkpqi
   svelte: 3.49.0
   svelte-check: 2.8.1_vylzxgme5yisu3bsyvcau4hjtq
+  svelte-headless-table: 0.13.3_svelte@3.49.0
   svelte-preprocess: 4.10.7_fje22ktja5v2dh6nbkissncqme
   svelte-simple-datatables: 0.2.3
   tailwindcss: 3.1.8_postcss@8.4.16
@@ -142,12 +144,12 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@sveltejs/adapter-static/1.0.0-next.39:
-    resolution: {integrity: sha512-EeD39H6iEe0UEKnKxLFTZFZpi/FcX5xfbAvsMQ+B09aDZccpQmkJBSIo+4kq1JsQGSjwi/+J3aE9bR67R6CIyQ==}
+  /@sveltejs/adapter-static/1.0.0-next.41:
+    resolution: {integrity: sha512-Bw6MfEuzuqjKZuVCG7ZHXiOIy/LDoRVR278eeAf4kcwl1B8+YEvChqdCvG2N5Ur+rxUIHstPgeX39HezS8d+mw==}
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.451_fhgkwirxvgjw2igda6zmhiisma:
-    resolution: {integrity: sha512-L4rdhWWVjIg8mxjcjeGT8cet4A+W5lnwh/Hggl207g0nfeNr4DOaJnM1Kz0LfA/wbWH5tHUQvvDHcR6f0rsfWQ==}
+  /@sveltejs/kit/1.0.0-next.460_fhgkwirxvgjw2igda6zmhiisma:
+    resolution: {integrity: sha512-bwDkwzEN72+1K5FXqBQGrYOwyA6V5sSSec/A6qXMTfh4uycFTiIQh/e2ki3pxfG0SwijrUo43FEbdKLyBiuDgQ==}
     engines: {node: '>=16.14'}
     hasBin: true
     requiresBuild: true
@@ -155,7 +157,7 @@ packages:
       svelte: ^3.44.0
       vite: ^3.1.0-beta.1
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 1.0.1_fhgkwirxvgjw2igda6zmhiisma
+      '@sveltejs/vite-plugin-svelte': 1.0.3_fhgkwirxvgjw2igda6zmhiisma
       cookie: 0.5.0
       devalue: 3.1.2
       kleur: 4.1.5
@@ -174,8 +176,8 @@ packages:
       - supports-color
     dev: true
 
-  /@sveltejs/vite-plugin-svelte/1.0.1_fhgkwirxvgjw2igda6zmhiisma:
-    resolution: {integrity: sha512-PorCgUounn0VXcpeJu+hOweZODKmGuLHsLomwqSj+p26IwjjGffmYQfVHtiTWq+NqaUuuHWWG7vPge6UFw4Aeg==}
+  /@sveltejs/vite-plugin-svelte/1.0.3_fhgkwirxvgjw2igda6zmhiisma:
+    resolution: {integrity: sha512-0Qu51m2W9RBlxWPp8i31KJpnqmjWMOne8vAzgmOX6ZM9uX+/RAv6BNhEMcNoP5MsyLjyW1ZTCiJoaZZ5EeqpFg==}
     engines: {node: ^14.18.0 || >= 16}
     peerDependencies:
       diff-match-patch: ^1.0.5
@@ -1768,11 +1770,28 @@ packages:
       - sugarss
     dev: true
 
+  /svelte-headless-table/0.13.3_svelte@3.49.0:
+    resolution: {integrity: sha512-OEKRf1mpCnPQ+YX7LnfrlxvFXMjAhma0P24BadP6Rq960sm+J0imgTK8MBC8AaGztIliPPB1CF5w1UXFuylTjQ==}
+    dependencies:
+      svelte-keyed: 1.1.6_svelte@3.49.0
+      svelte-subscribe: 1.0.5
+    transitivePeerDependencies:
+      - svelte
+    dev: true
+
   /svelte-hmr/0.14.12_svelte@3.49.0:
     resolution: {integrity: sha512-4QSW/VvXuqVcFZ+RhxiR8/newmwOCTlbYIezvkeN6302YFRE8cXy0naamHcjz8Y9Ce3ITTZtrHrIL0AGfyo61w==}
     engines: {node: ^12.20 || ^14.13.1 || >= 16}
     peerDependencies:
       svelte: '>=3.19.0'
+    dependencies:
+      svelte: 3.49.0
+    dev: true
+
+  /svelte-keyed/1.1.6_svelte@3.49.0:
+    resolution: {integrity: sha512-sd/7j3waSpOkeiQqATstlvNySbEpSs49aoaZ/nc09x/iEndnXQ/9Zy5PTD06+C7hlZk8KjZ4bhrktAQ791jWMQ==}
+    peerDependencies:
+      svelte: ^3.49.0
     dependencies:
       svelte: 3.49.0
     dev: true
@@ -1831,6 +1850,10 @@ packages:
 
   /svelte-simple-datatables/0.2.3:
     resolution: {integrity: sha512-WsWbB66KzvpYN9r9WpRgXthGejsH2QFJfoRw/ssKw81Fn659IBMVzAZtOojR5mgEDZ2j24j4BJvoThcH8DXxwA==}
+    dev: true
+
+  /svelte-subscribe/1.0.5:
+    resolution: {integrity: sha512-p+vRSBVzR9BQC72mjd2eqCv8zx5euLZQJF7QqAw5d41aKzQVOq90y71/NXch+nDNMjWbRo0CX+brcWYgPryJlw==}
     dev: true
 
   /svelte/3.49.0:
