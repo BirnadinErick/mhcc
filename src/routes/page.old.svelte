@@ -59,6 +59,51 @@
 			category: NotificationCategory.success,
 			data: 'Successsfully transferred backups to cloud!',
 			link: ''
+		},
+		{
+			category: NotificationCategory.warning,
+			data: 'I am about to explode 💥',
+			link: '/stocks'
+		},
+		{
+			category: NotificationCategory.danger,
+			data: 'Hello world, I am danger',
+			link: '/settings'
+		},
+		{
+			category: NotificationCategory.misc,
+			data: 'Hey there, you can ignore me',
+			link: '/'
+		},
+		{
+			category: NotificationCategory.success,
+			data: 'Successsfully transferred backups to cloud!',
+			link: ''
+		},
+		{
+			category: NotificationCategory.warning,
+			data: 'I am about to explode 💥',
+			link: '/stocks'
+		},
+		{
+			category: NotificationCategory.danger,
+			data: 'Hello world, I am danger',
+			link: '/settings'
+		},
+		{
+			category: NotificationCategory.misc,
+			data: 'Hey there, you can ignore me',
+			link: '/'
+		},
+		{
+			category: NotificationCategory.success,
+			data: 'Successsfully transferred backups to cloud!',
+			link: ''
+		},
+		{
+			category: NotificationCategory.warning,
+			data: 'I am about to explode 💥',
+			link: '/stocks'
 		}
 	];
 </script>
@@ -101,7 +146,7 @@
 			<span class="cursor-pointer"><a href="/notifications">👉</a></span>
 		</div>
 		<div class="overflow-y-auto">
-			<div class="cursor-pointer flex-col justify-evenly my-4 h-screen overflow-y-auto space-y-3">
+			<div class="cursor-pointer flex-col justify-evenly mt-4 space-y-3">
 				{#each notifications as notification}
 					<Notification {notification} />
 				{/each}

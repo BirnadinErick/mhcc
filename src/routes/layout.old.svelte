@@ -46,16 +46,14 @@
 	];
 </script>
 
-<main class="h-screen bg-slate-200 flex w-full cursor-default">
-	<nav
-		class="bg-green w-16 py-8 px-2 flex flex-col justify-center items-center overflow-y-auto overflow-x-hidden flex-shrink-0"
-	>
+<div class="h-screen w-screen flex">
+	<div class="bg-green w-16 py-8 px-2 flex flex-col justify-center items-center">
 		{#each sidebar_items as item}
 			<SidebarItem {item} />
 		{/each}
-	</nav>
+	</div>
 
 	<TransitionPage url={$page.url}>
 		<slot />
 	</TransitionPage>
-</main>
+</div>
