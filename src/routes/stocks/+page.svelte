@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Render, Subscribe, createTable, createRender, DataBodyRow } from 'svelte-headless-table';
+	import { addSortBy, addColumnOrder } from 'svelte-headless-table/plugins';
 	import { readable } from 'svelte/store';
 	import EditableTableCell from '$lib/components/EditableTableCell.svelte';
 
@@ -7,7 +8,10 @@
 
 	const data = readable(dummy_data);
 
-	const table = createTable(data);
+	const table = createTable(data, {
+		sort: addSortBy({ disableMultiSort: true }),
+		colOrder: addColumnOrder()
+	});
 
 	const updateData = (rowDataId: string, columnId: string, newValue: any) => {
 		// In this case, the dataId of each item is its index in $data.
@@ -41,7 +45,10 @@
 		table.column({
 			header: 'First Name',
 			accessor: 'first_name',
-			cell: EditableCellLabel
+			cell: EditableCellLabel,
+			plugins: {
+				sort: { invert: true }
+			}
 		}),
 		table.column({
 			header: 'Last Name',
@@ -95,12 +102,18 @@
 					<Subscribe rowAttrs={headerRow.attrs()} let:rowAttrs>
 						<tr {...rowAttrs} class="bg-emerald-200">
 							{#each headerRow.cells as cell (cell.id)}
-								<Subscribe attrs={cell.attrs()} let:attrs>
+								<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
 									<th
 										{...attrs}
 										class="py-3 px-6 border-black font-thin text-left  font-serif text-xl tracking-wider"
+										on:click={props.sort.toggle}
 									>
 										<Render of={cell.render()} />
+										{#if props.sort.order === 'asc'}
+											⬇️
+										{:else if props.sort.order === 'desc'}
+											⬆️
+										{/if}
 									</th>
 								</Subscribe>
 							{/each}
