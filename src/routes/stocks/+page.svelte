@@ -1,13 +1,19 @@
 <script lang="ts">
-	import { Render, Subscribe, createTable, createRender, DataBodyRow } from 'svelte-headless-table';
+	import { writable } from 'svelte/store';
+	import { Render, Subscribe, createTable, createRender } from 'svelte-headless-table';
 	import { addSortBy, addColumnOrder } from 'svelte-headless-table/plugins';
-	import { readable } from 'svelte/store';
-	import EditableTableCell from '$lib/components/EditableTableCell.svelte';
-	import AddNewItemStore from "$lib/stores/AddNewItemStore";
-	import dummy_data from './data';
-import AddNewItemOverlay from '$lib/components/AddNewItemOverlay.svelte';
 
-	const data = readable(dummy_data);
+	import AddNewItemOverlay from '$lib/components/AddNewItemOverlay.svelte';
+	import AddNewItemButton from '$lib/components/AddNewItemButton.svelte';
+	import PageHeader from '$lib/components/PageHeader.svelte';
+	import EditableTableCell from '$lib/components/EditableTableCell.svelte';
+
+	import dummy_data from './data';
+
+	var searchParam: string;
+
+	// get data to populate
+	const data = writable(dummy_data);
 
 	const table = createTable(data, {
 		sort: addSortBy({ disableMultiSort: true }),
@@ -64,6 +70,16 @@ import AddNewItemOverlay from '$lib/components/AddNewItemOverlay.svelte';
 	]);
 
 	const { headerRows, rows, tableAttrs, tableBodyAttrs } = table.createViewModel(columns);
+
+	function search() {
+		data.set(
+			dummy_data.filter((record) => {
+				return (record.first_name + record.last_name + record.email)
+					.toLowerCase()
+					.includes(searchParam.toLowerCase());
+			})
+		);
+	}
 </script>
 
 <svelte:head>
@@ -71,28 +87,21 @@ import AddNewItemOverlay from '$lib/components/AddNewItemOverlay.svelte';
 </svelte:head>
 
 <div class="flex justify-between my-2 lg:mx-8 mx-2">
-	<h2 class="py-1 text-3xl font-serif">Stocks.</h2>
-	<button
-		class="p-3 mx-2 flex items-center space-x-1 bg-white text-indigo shadow-none hover:shadow-lg hover:shadow-emerald-200 hover:scale-105  transition-all duration-300 ease-out" on:click={()=>{AddNewItemStore.set(true)}}
-	>
-		<span class="p-1">
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke-width="1.5"
-				stroke="currentColor"
-				class="w-6 h-6"
-			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z"
-				/>
-			</svg>
-		</span>
-		<p class="px-2">Add New Item</p>
-	</button>
+	<PageHeader />
+	<div class="flex justify-between items-center space-x-4">
+		<div class="flex items-center space-x-2">
+			<input
+				bind:value={searchParam}
+				type="text"
+				name="search"
+				id="search"
+				placeholder="Search 🔎"
+				class="p-4"
+				on:input={search}
+			/>
+		</div>
+		<AddNewItemButton />
+	</div>
 </div>
 
 <div class="h-full overflow-hidden my-4 lg:mx-8 mx-2">
@@ -141,9 +150,9 @@ import AddNewItemOverlay from '$lib/components/AddNewItemOverlay.svelte';
 	</div>
 </div>
 
-<AddNewItemOverlay >
+<AddNewItemOverlay>
 	<form action="" class="">
 		<label for="tl" class="text-white">telephone</label>
-		<input type="text" name="telephone" id="tl">
+		<input type="text" name="telephone" id="tl" />
 	</form>
 </AddNewItemOverlay>
