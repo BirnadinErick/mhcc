@@ -1,0 +1,1 @@
+<h2 class="py-1 text-3xl font-serif">Stocks.</h2>
