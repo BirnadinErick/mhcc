@@ -3,8 +3,9 @@
 	import { addSortBy, addColumnOrder } from 'svelte-headless-table/plugins';
 	import { readable } from 'svelte/store';
 	import EditableTableCell from '$lib/components/EditableTableCell.svelte';
-
+	import AddNewItemStore from "$lib/stores/AddNewItemStore";
 	import dummy_data from './data';
+import AddNewItemOverlay from '$lib/components/AddNewItemOverlay.svelte';
 
 	const data = readable(dummy_data);
 
@@ -72,9 +73,9 @@
 <div class="flex justify-between my-2 lg:mx-8 mx-2">
 	<h2 class="py-1 text-3xl font-serif">Stocks.</h2>
 	<button
-		class="p-3 mx-2 flex items-center space-x-1 bg-white text-indigo shadow-none hover:shadow-lg hover:shadow-emerald-200 hover:scale-105  transition-all duration-300 ease-out"
+		class="p-3 mx-2 flex items-center space-x-1 bg-white text-indigo shadow-none hover:shadow-lg hover:shadow-emerald-200 hover:scale-105  transition-all duration-300 ease-out" on:click={()=>{AddNewItemStore.set(true)}}
 	>
-		<span class=" p-1">
+		<span class="p-1">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
@@ -139,3 +140,10 @@
 		</table>
 	</div>
 </div>
+
+<AddNewItemOverlay >
+	<form action="" class="">
+		<label for="tl" class="text-white">telephone</label>
+		<input type="text" name="telephone" id="tl">
+	</form>
+</AddNewItemOverlay>
