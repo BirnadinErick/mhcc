@@ -11,6 +11,7 @@
 	import dummy_data from './data';
 
 	var searchParam: string;
+	let searchElement: HTMLInputElement;
 
 	// get data to populate
 	const data = writable(dummy_data);
@@ -80,6 +81,16 @@
 			})
 		);
 	}
+
+	document.addEventListener('keydown', (event) => {
+		if (event.isComposing) {
+			return;
+		}
+		if (event.ctrlKey === true && event.key.toLowerCase() === 's') {
+			searchElement.focus();
+			return;
+		}
+	});
 </script>
 
 <svelte:head>
@@ -91,6 +102,7 @@
 	<div class="flex justify-between items-center space-x-4">
 		<div class="flex items-center space-x-2">
 			<input
+				bind:this={searchElement}
 				bind:value={searchParam}
 				type="text"
 				name="search"
