@@ -7,7 +7,7 @@
 	},
 	"package": {
 		"productName": "mhcc",
-		"version": "0.1.1"
+		"version": "0.2.0"
 	},
 	"tauri": {
 		"allowlist": {
@@ -15,8 +15,8 @@
 		},
 		"bundle": {
 			"active": true,
-			"category": "DeveloperTool",
-			"copyright": "All Rights Reserved by BirnadinErick 2022",
+			"category": "ECommerce",
+			"copyright": "All Rights Reserved by Birnadin Erick 2022",
 			"deb": {
 				"depends": []
 			},
