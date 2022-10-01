@@ -1,8 +1,8 @@
 CREATE TABLE staffs
 (
-    staff_id      SMALLSERIAL PRIMARY KEY,
-    name          CHARACTER VARYING (200)    NOT NULL,
-    uname         CHARACTER (10)    NOT NULL UNIQUE,
+    staff_id      INTEGER PRIMARY KEY,
+    name          TEXT    NOT NULL,
+    uname         TEXT    NOT NULL UNIQUE,
     passwd        TEXT    NOT NULL,
     role          INTEGER NOT NULL DEFAULT 1,
     date_enrolled INTEGER NOT NULL
