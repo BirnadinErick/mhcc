@@ -8,7 +8,10 @@
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import EditableTableCell from '$lib/components/EditableTableCell.svelte';
 
+	import { invoke } from '@tauri-apps/api/tauri';
+
 	import dummy_data from './data';
+	import { error } from '@sveltejs/kit';
 
 	var searchParam: string;
 	let searchElement: HTMLInputElement;
@@ -88,6 +91,17 @@
 		}
 		if (event.ctrlKey === true && event.key.toLowerCase() === 's') {
 			searchElement.focus();
+			return;
+		} else if (event.ctrlKey === true && event.key.toLowerCase() === 'd') {
+			invoke('test_db')
+				.then((r) => {
+					console.info('command done!');
+				})
+				.catch((e) => {
+					console.error('Command failed, following error returned');
+					console.error(e);
+				});
+		} else {
 			return;
 		}
 	});
