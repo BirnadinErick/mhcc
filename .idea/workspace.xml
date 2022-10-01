@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dc731794-98b0-4c7b-a134-5e68ac67d589" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/sql/create-table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/create-table.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/diesel.toml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/migrations/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/migrations/2022-08-10-112926_create_staffs/down.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/migrations/2022-08-10-112926_create_staffs/up.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/migrations/2022-08-14-094434_create_stocks/down.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/migrations/2022-08-14-094434_create_stocks/up.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/migrations/2022-08-14-094441_create_grns/down.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/migrations/2022-08-14-094441_create_grns/up.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/migrations/2022-08-14-094451_create_visitors/down.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/migrations/2022-08-14-094451_create_visitors/up.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/migrations/2022-08-14-094500_create_sales/down.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/migrations/2022-08-14-094500_create_sales/up.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/migrations/2022-08-14-094508_create_sales_items/down.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/migrations/2022-08-14-094508_create_sales_items/up.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/src/db.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/lib.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/src/models.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/src/schema.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/tauri.conf.json" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/tauri.conf.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/stocks/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/stocks/+page.svelte" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="b7dqi8cf" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2F39nzkMcUqfthJbOuR8IwVYRjm" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/Birnadin Erick/Documents/GitHub/mhcc",
+    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true"
+  }
+}]]></component>
+  <component name="RustProjectSettings">
+    <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dc731794-98b0-4c7b-a134-5e68ac67d589" name="Changes" comment="" />
+      <created>1663710082543</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1663710082543</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
