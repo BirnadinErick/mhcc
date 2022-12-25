@@ -10,6 +10,10 @@
 		"version": "0.2.0"
 	},
 	"tauri": {
+		"systemTray": {
+			"iconPath": "icons/icon.png",
+			"iconAsTemplate": true
+		},
 		"allowlist": {
 			"all": false
 		},
@@ -39,7 +43,10 @@
 			},
 			"resources": [],
 			"shortDescription": "",
-			"targets": ["msi", "updater"],
+			"targets": [
+				"msi",
+				"updater"
+			],
 			"windows": {
 				"certificateThumbprint": null,
 				"digestAlgorithm": "sha256",

@@ -7,6 +7,9 @@
 
 	import '../css/app.css';
 
+	export const prerender = true;
+	export const ssr = false;
+
 	let sidebar_items: Array<SidebarItemType> = [
 		{
 			tip: 'Home',
