@@ -1,41 +1,32 @@
 CREATE TABLE staffs
 (
-    staff_id      SERIAL PRIMARY KEY,
-    name          CHARACTER VARYING (200) NOT NULL,
-    uname         CHARACTER (10) NOT NULL UNIQUE,
+    staff_id      INTEGER PRIMARY KEY,
+    name          TEXT    NOT NULL,
+    uname         TEXT    NOT NULL UNIQUE,
     passwd        TEXT    NOT NULL,
     role          INTEGER NOT NULL DEFAULT 1,
-    date_enrolled DATE NOT NULL
-);
-
-CREATE TABLE dispenser (
-   dispenser_id SERIAL PRIMARY KEY,
-    name CHARACTER VARYING (200) NOT NULL
+    date_enrolled INTEGER NOT NULL
 );
 
 CREATE TABLE stocks
 (
-    stock_id      SERIAL PRIMARY KEY,
-    name          CHARACTER VARYING (200)    NOT NULL,
-    dispenser_id  INTEGER    NOT NULL,
+    stock_id      INTEGER PRIMARY KEY,
+    name          TEXT    NOT NULL,
+    dispenser     TEXT    NOT NULL,
     uprice        REAL    NOT NULL,
     quantity      INTEGER NOT NULL,
-    date_expiry   TIMESTAMP NOT NULL,
+    date_expiry   INTEGER NOT NULL,
     staff_stocked INTEGER NOT NULL,
     FOREIGN KEY (staff_stocked)
         REFERENCES staffs (staff_id)
-        ON DELETE CASCADE
-        ON UPDATE NO ACTION,
-    FOREIGN KEY (dispenser_id)
-        REFERENCES dispenser (dispenser_id)
         ON DELETE CASCADE
         ON UPDATE NO ACTION
 );
 
 CREATE TABLE grns
 (
-    grn_id         SERIAL PRIMARY KEY,
-    date_returned  TIMESTAMP NOT NULL DEFAULT NOW(),
+    grn_id         INTEGER PRIMARY KEY,
+    date_returned  INTEGER NOT NULL,
     staff_returned INTEGER NOT NULL,
     FOREIGN KEY (staff_returned)
         REFERENCES staffs (staff_id)
@@ -45,22 +36,22 @@ CREATE TABLE grns
 
 CREATE TABLE visitors
 (
-    v_id    SERIAL PRIMARY KEY,
-    name    CHARACTER VARYING (200)    NOT NULL,
-    address CHARACTER VARYING (200)    NOT NULL,
-    tpno    CHARACTER VARYING (12)    NOT NULL,
-    dob     DATE NOT NULL,
-    nic     CHARACTER VARYING (20)    NOT NULL
+    v_id    INTEGER PRIMARY KEY,
+    name    TEXT    NOT NULL,
+    address TEXT    NOT NULL,
+    tpno    TEXT    NOT NULL,
+    dob     INTEGER NOT NULL,
+    nic     TEXT    NOT NULL
 );
 
 CREATE TABLE sales
 (
-    sales_id  SERIAL PRIMARY KEY,
+    sales_id  INTEGER PRIMARY KEY,
     v_id      INTEGER NOT NULL,
-    date_sold TIMESTAMP NOT NULL DEFAULT NOW(),
+    date_sold INTEGER NOT NULL,
     staff_id  INTEGER NOT NULL,
     FOREIGN KEY (v_id)
-        REFERENCES visitorS (v_id)
+        REFERENCES visitor (v_id)
         ON UPDATE NO ACTION
         ON DELETE CASCADE,
     FOREIGN KEY (staff_id)

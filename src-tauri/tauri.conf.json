@@ -7,16 +7,20 @@
 	},
 	"package": {
 		"productName": "mhcc",
-		"version": "0.1.1"
+		"version": "0.2.0"
 	},
 	"tauri": {
+		"systemTray": {
+			"iconPath": "icons/icon.png",
+			"iconAsTemplate": true
+		},
 		"allowlist": {
 			"all": false
 		},
 		"bundle": {
 			"active": true,
-			"category": "DeveloperTool",
-			"copyright": "All Rights Reserved by BirnadinErick 2022",
+			"category": "ECommerce",
+			"copyright": "All Rights Reserved by Birnadin Erick 2022",
 			"deb": {
 				"depends": []
 			},
@@ -39,7 +43,10 @@
 			},
 			"resources": [],
 			"shortDescription": "",
-			"targets": ["msi", "updater"],
+			"targets": [
+				"msi",
+				"updater"
+			],
 			"windows": {
 				"certificateThumbprint": null,
 				"digestAlgorithm": "sha256",
