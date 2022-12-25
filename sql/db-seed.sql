@@ -36,3 +36,24 @@ FROM 'C:\Users\b\projs\mhcc\db_seeds\db-sales.csv' (FORMAT csv)
 COPY sales_item(sales_id, stock_id, quantity, uprice)
 FROM 'C:\Users\b\projs\mhcc\db_seeds\db-sales_items.csv' (FORMAT csv)
 -- END: SEED DATABASE
+
+-- BEGIN: MISC
+-- bootstrap FTS for stocks
+ALTER TABLE stocks 
+ADD search_tokens tsvector 
+GENERATED ALWAYS AS (
+    setweight(to_tsvector('simple',name), 'A') :: tsvector
+) STORED;
+
+ALTER TABLE dispensers
+ADD search_tokens tsvector 
+GENERATED ALWAYS AS (
+    setweight(to_tsvector('simple',name), 'B') :: tsvector
+) STORED;
+-- END: MISC
+
+-- BEGIN: CREATE INDEXES
+CREATE INDEX idx_stock_date_expiry ON stocks(date_expiry);
+CREATE INDEX idx_stock_name ON stocks USING GIN(search_tokens);
+create index idx_dispensers_name on dispensers using GIN(search_tokens);
+-- END: CREATE INDEXES
