@@ -43,17 +43,38 @@
 	let data: Writable<Array<StocksGet>> = writable([]);
 	let data_temp: Array<StocksGet>; // to hold original data during search
 
-	function updateData(rowDataId: string, columnId: string, newValue: any) {
+	async function updateData(rowDataId: string, columnId: string, newValue: any) {
 		// In this case, the dataId of each item is its index in $data.
 		// You can also handle any server-synchronization necessary here.
 		const idx = parseInt(rowDataId);
 		const currentItem = $data[idx];
-		const key = columnId;
-		const newItem = { ...currentItem, [key]: newValue };
+
+		let newItem: StocksGet;
+		newItem = { ...currentItem };
+
+		switch (columnId) {
+			case 'stock_name':
+			case 'date_expiry':
+				newItem[columnId] = newValue;
+				break;
+			case 'uprice':
+				newItem[columnId] = parseFloat(newValue);
+				break;
+			case 'quantity':
+				newItem[columnId] = parseInt(newValue);
+				break;
+			default:
+				break;
+		}
+
 		$data[idx] = newItem;
-		$data = $data;
 
 		// Sync with backend
+		let update_status = await invoke('update_stocks', {
+			newStock: newItem
+		});
+
+		console.log(update_status);
 	}
 
 	async function search(term: string) {
@@ -160,8 +181,7 @@
 	const columns = table.createColumns([
 		table.column({
 			header: 'ID',
-			accessor: 'stock_id',
-			cell: EditableCellLabel
+			accessor: 'stock_id'
 		}),
 		table.column({
 			header: 'Stock Name',
@@ -188,8 +208,7 @@
 		}),
 		table.column({
 			header: 'Dispenser',
-			accessor: 'dispensers_name',
-			cell: EditableCellLabel
+			accessor: 'dispensers_name'
 		})
 	]);
 
