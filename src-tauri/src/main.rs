@@ -3,161 +3,38 @@
     windows_subsystem = "windows"
 )]
 
+
 use dotenvy::dotenv;
 use sqlx::postgres::PgPoolOptions;
+use sqlx::PgPool as Pool;
 use std::env;
 use tauri::{
-    CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
+    CustomMenuItem, Manager, State, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
+};
+use mhcc::stocks::{
+    state::StocksState, 
+    models::StockGet, models::StockInsert
 };
 
-#[derive(serde::Serialize, serde::Deserialize)]
-struct StockGet {
-    stock_id: i32,
-    stock_name: String,
-    uprice: f32,
-    quantity: i32,
-    dispensers_name: String,
-    date_expiry: chrono::NaiveDate,
+
+#[tauri::command]
+async fn update_stocks<'m>(new_stock: StockGet, pool: State<'m, Pool>) -> Result<u64, ()> {
+    Ok(StocksState::update(new_stock, &*pool).await)
 }
 
 #[tauri::command]
-async fn update_stocks(new_stock: StockGet) -> i32 {
-    let pool = PgPoolOptions::new()
-        .max_connections(1)
-        .connect(&env::var("DATABASE_URL").unwrap())
-        .await
-        .unwrap();
-
-    let query = format!(
-        r#"
-UPDATE stocks
-SET 
-    stock_name = '{}',
-    uprice = {},
-    date_expiry = '{}',
-    quantity = {}
-WHERE stock_id = {};
-        "#,
-        new_stock.stock_name,
-        new_stock.uprice,
-        new_stock.date_expiry,
-        new_stock.quantity,
-        new_stock.stock_id
-    );
-
-    let res = sqlx::query(&query).execute(&pool).await.unwrap();
-
-    if res.rows_affected() == 1 {
-        1
-    } else {
-        0
-    }
+async fn search_stocks<'m>(term: String, pool: State<'m, Pool>) -> Result<Vec<StockGet>, ()> {
+    Ok(StocksState::search(term, &*pool).await)
 }
 
 #[tauri::command]
-async fn search_stocks(term: String) -> Vec<StockGet> {
-    let pool = PgPoolOptions::new()
-        .max_connections(2)
-        .connect(&env::var("DATABASE_URL").unwrap())
-        .await
-        .unwrap();
-
-    let stocks: Vec<StockGet> = sqlx::query_as!(
-        StockGet,
-        r#"
-SELECT
-    stock_id,
-     stock_name,
-    uprice, 
-    quantity, 
-    date_expiry,
-    dispensers.name as dispensers_name
-FROM stocks
-LEFT JOIN dispensers
-    ON stocks.dispenser_id = dispensers.dispenser_id
-WHERE stocks.search_tokens @@ plainto_tsquery($1)
-ORDER BY date_expiry ASC, stock_id ASC;
-        "#,
-        term
-    )
-    .fetch_all(&pool)
-    .await
-    .unwrap();
-
-    stocks
+async fn get_stocks<'m>(off_set: i64, pool: State<'m, Pool>) -> Result<Vec<StockGet>, ()> {
+    Ok(StocksState::get(off_set, &*pool).await)
 }
 
 #[tauri::command]
-async fn get_stocks(off_set: i64) -> Vec<StockGet> {
-    let pool = PgPoolOptions::new()
-        .max_connections(2)
-        .connect(&env::var("DATABASE_URL").unwrap())
-        .await
-        .unwrap();
-
-    let stocks: Vec<StockGet> = sqlx::query_as!(
-        StockGet,
-        r#"
-SELECT
-    stock_id,
-    stock_name,
-    uprice,
-    quantity,
-    date_expiry,
-    dispensers.name as dispensers_name
-FROM stocks
-LEFT JOIN dispensers
-    ON stocks.dispenser_id = dispensers.dispenser_id
-WHERE
-    date_expiry >= CURRENT_DATE + interval '+7 day' * $1
-        AND
-    date_expiry < CURRENT_DATE + interval '+7 day' + interval '+7 day' * $1
-ORDER BY date_expiry ASC, stock_id ASC;
-        "#,
-        off_set as f64
-    )
-    .fetch_all(&pool)
-    .await
-    .unwrap();
-
-    stocks
-}
-
-#[derive(serde::Serialize, serde::Deserialize)]
-struct StockInsert {
-    stock_name: String,
-    uprice: f32,
-    quantity: i32,
-    date_expiry: chrono::NaiveDate
-}
-
-#[tauri::command]
-async fn insert_stocks(new_stock: StockInsert) -> i32{
-    let pool = PgPoolOptions::new()
-        .max_connections(2)
-        .connect(&env::var("DATABASE_URL").unwrap())
-        .await
-        .unwrap();
-    
-    let res = sqlx::query(
-        "
-INSERT INTO stocks(stock_name, uprice, quantity, date_expiry, staff_stocked, dispenser_id) VALUES (
-    $1, $2, $3, $4, 1, 100
- ) RETURNING stock_id;
-        "
-    )
-    .bind(new_stock.stock_name)
-    .bind(new_stock.uprice)
-    .bind(new_stock.quantity)
-    .bind(new_stock.date_expiry)
-    .execute(&pool).await.unwrap();
-    
-    if res.rows_affected() == 1 {
-        1
-    }else {
-        0
-    }
-    
+async fn insert_stocks<'m>(new_stock: StockInsert, pool: State<'m, Pool>) -> Result<u64, ()> {
+    Ok(StocksState::insert(new_stock, &*pool).await)
 }
 
 #[tokio::main]
@@ -178,7 +55,14 @@ async fn main() {
         .add_item(quit);
     let tray = SystemTray::new().with_menu(tray_menu);
 
+    let pool = PgPoolOptions::new()
+        .max_connections(2)
+        .connect(&env::var("DATABASE_URL").unwrap())
+        .await
+        .expect("Failed to initiate database pool");
+
     tauri::Builder::default()
+        .manage(pool)
         .system_tray(tray)
         .on_system_tray_event(|app, event| {
             if let SystemTrayEvent::MenuItemClick { id, .. } = event {
