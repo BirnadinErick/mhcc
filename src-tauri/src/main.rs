@@ -123,6 +123,43 @@ ORDER BY date_expiry ASC, stock_id ASC;
     stocks
 }
 
+#[derive(serde::Serialize, serde::Deserialize)]
+struct StockInsert {
+    stock_name: String,
+    uprice: f32,
+    quantity: i32,
+    date_expiry: chrono::NaiveDate
+}
+
+#[tauri::command]
+async fn insert_stocks(new_stock: StockInsert) -> i32{
+    let pool = PgPoolOptions::new()
+        .max_connections(2)
+        .connect(&env::var("DATABASE_URL").unwrap())
+        .await
+        .unwrap();
+    
+    let res = sqlx::query(
+        "
+INSERT INTO stocks(stock_name, uprice, quantity, date_expiry, staff_stocked, dispenser_id) VALUES (
+    $1, $2, $3, $4, 1, 100
+ ) RETURNING stock_id;
+        "
+    )
+    .bind(new_stock.stock_name)
+    .bind(new_stock.uprice)
+    .bind(new_stock.quantity)
+    .bind(new_stock.date_expiry)
+    .execute(&pool).await.unwrap();
+    
+    if res.rows_affected() == 1 {
+        1
+    }else {
+        0
+    }
+    
+}
+
 #[tokio::main]
 async fn main() {
     dotenv().ok();
@@ -165,7 +202,8 @@ async fn main() {
         .invoke_handler(tauri::generate_handler![
             get_stocks,
             search_stocks,
-            update_stocks
+            update_stocks,
+            insert_stocks
         ])
         .run(tauri::generate_context!())
         .expect("couldn't start MHCC!");

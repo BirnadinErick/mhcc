@@ -2,10 +2,13 @@
 	import AddNewItemStore from '$lib/stores/AddNewItemStore';
 	import { cubicOut, cubicIn } from 'svelte/easing';
 	import { fade, fly } from 'svelte/transition';
+
+	export let addCallback: any;
 </script>
 
 {#if $AddNewItemStore === true}
 	<!-- overlay -->
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div
 		class="absolute bg-green/30 top-0 left-0 h-screen w-screen flex items-center justify-end text-white overflow-hidden"
 		in:fade={{ duration: 300, easing: cubicOut }}
@@ -25,14 +28,16 @@
 				<h1 class="text-3xl font-serif">Add New Stock.</h1>
 			</div>
 			<!-- form -->
-			<div class="my-8 text-indigo">
+			<form action="" class="space-y-4 text-indigo">
 				<slot />
-			</div>
-			<!-- buttons -->
-			<div class="flex items-center justify-end w-full my-2 space-x-6">
-				<button class="overlay-btn hover:bg-yellow ring-yellow" type="reset">Clear.</button>
-				<button class="overlay-btn hover:bg-red ring-red" type="submit">Add.</button>
-			</div>
+
+				<!-- buttons -->
+				<div class="flex items-center justify-end w-full my-4 space-x-6">
+					<button class="overlay-btn hover:bg-yellow ring-yellow" type="reset">Clear.</button>
+
+					<button class="overlay-btn hover:bg-red ring-red" on:click={addCallback}>Add.</button>
+				</div>
+			</form>
 		</div>
 	</div>
 {/if}

@@ -19,6 +19,24 @@
 	var scrollTimes: number = 0;
 	var lastAction: string = '';
 
+	// insert form
+	let stock_name: string;
+	let dispensers_name: string;
+	let quantity: number;
+	let uprice: number;
+	let date_expiry: string;
+
+	async function insert_stock() {
+		const new_stock = {
+			stock_name: stock_name,
+			uprice: uprice,
+			quantity: quantity,
+			date_expiry: date_expiry
+		};
+
+		await invoke('insert_stocks', { newStock: new_stock });
+	}
+
 	// @ts-ignore
 	const EditableCellLabel /*: DataLabel<Sample>*/ = ({ column, row, value }) => {
 		return createRender(EditableTableCell, {
@@ -285,9 +303,59 @@
 	</div>
 </div>
 
-<AddNewItemOverlay>
-	<form action="" class="">
-		<label for="tl" class="text-white">telephone</label>
-		<input type="text" name="telephone" id="tl" />
-	</form>
+<AddNewItemOverlay addCallback={insert_stock}>
+	<div class="">
+		<label for="stock_name" class="text-white">Name</label>
+		<input
+			class="block p-1"
+			type="text"
+			bind:value={stock_name}
+			name="stock_name"
+			id="stock_name"
+		/>
+	</div>
+
+	<div class="">
+		<label for="uprice" class="text-white"> Unit Price</label>
+		<input
+			class="block p-1 mt-1 focus:outline-indigo"
+			type="number"
+			name="uprice"
+			id="uprice"
+			bind:value={uprice}
+		/>
+	</div>
+
+	<div class="">
+		<label for="quantity" class="text-white ">Quantity</label>
+		<input
+			class="block p-1 mt-1 focus:outline-indigo"
+			type="number"
+			name="quantity"
+			id="quantity"
+			bind:value={quantity}
+		/>
+	</div>
+
+	<div class="">
+		<label for="date_expiry" class="text-white"> Expiry Date</label>
+		<input
+			class="block p-1 mt-1 focus:outline-indigo"
+			type="date"
+			name="date_expiry"
+			id="date_expiry"
+			bind:value={date_expiry}
+		/>
+	</div>
+
+	<div class="">
+		<label for="dispensers_name" class="text-white ">Dispenser</label>
+		<input
+			class="block p-1 mt-1 focus:outline-indigo"
+			type="text"
+			name="dispensers_name"
+			id="dispensers_name"
+			bind:value={dispensers_name}
+		/>
+	</div>
 </AddNewItemOverlay>
