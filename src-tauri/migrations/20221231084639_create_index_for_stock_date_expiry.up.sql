@@ -1,0 +1,1 @@
+CREATE INDEX idx_stock_date_expiry ON stocks(date_expiry);
