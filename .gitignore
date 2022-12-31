@@ -9,3 +9,5 @@ node_modules
 **/target
 /Cargo.lock
 *.brain*
+
+**/sql/*
