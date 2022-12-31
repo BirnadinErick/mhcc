@@ -1,10 +1,10 @@
 use sqlx::PgPool as Pool;
-use super::models::{StockGet, StockInsert};
+use super::models::{GetStock, AddStock};
 
 pub struct StocksState {}
 
 impl StocksState {
-    pub async fn update(updated_stock: StockGet, pool: &Pool) -> u64 {
+    pub async fn update(updated_stock: GetStock, pool: &Pool) -> u64 {
         let query = format!(
             r#"
 UPDATE stocks
@@ -27,9 +27,9 @@ WHERE stock_id = {};
         res.rows_affected()
     }
 
-    pub async fn search(term: String, pool: &Pool) -> Vec<StockGet> {
-        let stocks: Vec<StockGet> = sqlx::query_as!(
-            StockGet,
+    pub async fn search(term: String, pool: &Pool) -> Vec<GetStock> {
+        let stocks: Vec<GetStock> = sqlx::query_as!(
+            GetStock,
             r#"
 SELECT
     stock_id,
@@ -53,9 +53,9 @@ ORDER BY date_expiry ASC, stock_id ASC;
         stocks
     }
 
-    pub async fn get(offset: i64, pool: &Pool) -> Vec<StockGet> {
-        let stocks: Vec<StockGet> = sqlx::query_as!(
-            StockGet,
+    pub async fn get(offset: i64, pool: &Pool) -> Vec<GetStock> {
+        let stocks: Vec<GetStock> = sqlx::query_as!(
+            GetStock,
             r#"
 SELECT
     stock_id,
@@ -82,7 +82,7 @@ ORDER BY date_expiry ASC, stock_id ASC;
         stocks
     }
 
-    pub async fn insert(new_stock: StockInsert, pool: &Pool) -> u64 {
+    pub async fn insert(new_stock: AddStock, pool: &Pool) -> u64 {
         // TODO: correct staff_stocked and dispenser_id
         let res = sqlx::query(
             "

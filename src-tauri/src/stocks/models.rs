@@ -2,7 +2,7 @@ use chrono::NaiveDate;
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize)]
-pub struct StockGet {
+pub struct GetStock {
     pub stock_id: i32,
     pub stock_name: String,
     pub uprice: f32,
@@ -12,7 +12,7 @@ pub struct StockGet {
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct StockInsert {
+pub struct AddStock {
     pub stock_name: String,
     pub uprice: f32,
     pub quantity: i32,

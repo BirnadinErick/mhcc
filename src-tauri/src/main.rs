@@ -13,29 +13,36 @@ use tauri::{
 };
 use mhcc::stocks::{
     state::StocksState, 
-    models::StockGet, models::StockInsert
+    models::GetStock, models::AddStock,
+};
+use mhcc::{
+    ports::*,
+    adapters::PgAdapter
 };
 
+// BEGIN: tauri commands ======================================================
 
 #[tauri::command]
-async fn update_stocks<'m>(new_stock: StockGet, pool: State<'m, Pool>) -> Result<u64, ()> {
+async fn insert_stocks<'m>(new_stock: AddStock, pool: State<'m, Pool>) -> Result<u64, ()> {
+    Ok(StocksState::insert(new_stock, &*pool).await)
+}
+
+#[tauri::command]
+async fn get_stocks<'m>(off_set: i64, pool: State<'m, PgAdapter>) -> Result<Vec<GetStock>, ()> {
+    Ok(PgAdapter::get_stock(&pool, off_set as f64).await)
+}
+
+#[tauri::command]
+async fn update_stocks<'m>(new_stock: GetStock, pool: State<'m, Pool>) -> Result<u64, ()> {
     Ok(StocksState::update(new_stock, &*pool).await)
 }
 
 #[tauri::command]
-async fn search_stocks<'m>(term: String, pool: State<'m, Pool>) -> Result<Vec<StockGet>, ()> {
+async fn search_stocks<'m>(term: String, pool: State<'m, Pool>) -> Result<Vec<GetStock>, ()> {
     Ok(StocksState::search(term, &*pool).await)
 }
 
-#[tauri::command]
-async fn get_stocks<'m>(off_set: i64, pool: State<'m, Pool>) -> Result<Vec<StockGet>, ()> {
-    Ok(StocksState::get(off_set, &*pool).await)
-}
-
-#[tauri::command]
-async fn insert_stocks<'m>(new_stock: StockInsert, pool: State<'m, Pool>) -> Result<u64, ()> {
-    Ok(StocksState::insert(new_stock, &*pool).await)
-}
+// END: Tauri commands ========================================================
 
 #[tokio::main]
 async fn main() {
@@ -62,7 +69,8 @@ async fn main() {
         .expect("Failed to initiate database pool");
 
     tauri::Builder::default()
-        .manage(pool)
+        .manage(pool.clone())
+        .manage(PgAdapter {pool})
         .system_tray(tray)
         .on_system_tray_event(|app, event| {
             if let SystemTrayEvent::MenuItemClick { id, .. } = event {

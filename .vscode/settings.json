@@ -2,11 +2,9 @@
 	"rust-analyzer.checkOnSave.allTargets": false,
 	"js/ts.implicitProjectConfig.target": "ES2021",
 	"files.watcherExclude": {
-		"**/src-tauri": true,
 		"**/target/**/*": true
 	},
 	"search.exclude": {
-		"**/src-tauri": true,
 		"**/target": true,
 		"*lock.*": true
 	},
@@ -14,8 +12,13 @@
 	"editor.fontFamily": "'JetBrainsMono Nerd Font', monospace",
 	"editor.wordWrap": "bounded",
 	"editor.copyWithSyntaxHighlighting": false,
-	"files.exclude": {
-		"**/src-tauri": true
-	},
-	"editor.fontSize": 14
+	"editor.fontSize": 14,
+	"tailwindCSS.files.exclude": [
+		"**/.git/**",
+		"**/node_modules/**",
+		"**/.hg/**",
+		"**/.svn/**",
+		"**/src-tauri/**"
+	],
+	"emmet.excludeLanguages": []
 }
