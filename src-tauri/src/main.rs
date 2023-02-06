@@ -33,8 +33,8 @@ async fn get_stocks<'m>(off_set: i64, pool: State<'m, PgAdapter>) -> Result<Vec<
 }
 
 #[tauri::command]
-async fn update_stocks<'m>(new_stock: GetStock, pool: State<'m, Pool>) -> Result<u64, ()> {
-    Ok(StocksState::update(new_stock, &*pool).await)
+async fn update_stocks<'m>(new_stock: GetStock, pool: State<'m, PgAdapter>) -> Result<u64, ()> {
+    Ok(PgAdapter::update_stock(&pool, new_stock).await)
 }
 
 #[tauri::command]

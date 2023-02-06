@@ -6,7 +6,7 @@ use crate::adapters::PgAdapter;
 #[async_trait]
 impl StockService for PgAdapter {
     async fn add_stock(&self, add_stock: &AddStock) -> bool {
-        panic!("delete_stocks not implemented for PgStockService")
+        todo!("delete_stocks not implemented for PgStockService")
     }
 
     async fn get_stock(&self, offset: f64) -> Vec<GetStock> {
@@ -38,12 +38,34 @@ ORDER BY date_expiry ASC, stock_id ASC;
         stocks
     }
 
-    async fn update_stock(&self) -> bool {
-        panic!("update_stocks not implemented for PgStockService")
+    async fn update_stock(&self, updated_stock: GetStock) -> u64 {
+        let query = format!(
+            r#"
+UPDATE stocks
+SET
+    stock_name = '{}',
+    uprice = {},
+    date_expiry = '{}',
+    quantity = {}
+WHERE stock_id = {};
+        "#,
+            updated_stock.stock_name,
+            updated_stock.uprice,
+            updated_stock.date_expiry,
+            updated_stock.quantity,
+            updated_stock.stock_id
+        );
+
+        let res = sqlx::query(&query)
+			.execute(&self.pool)
+			.await
+			.expect("couldn't update");
+
+        res.rows_affected()
     }
 
     async fn delete_stock(&self, id: i64) -> bool {
-        panic!("delete_stocks not implemented for PgStockService")
+        todo!("delete_stocks not implemented for PgStockService")
     }
 
     async fn search_stock(&self, query: String) -> Vec<GetStock> {
