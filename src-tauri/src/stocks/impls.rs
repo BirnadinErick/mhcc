@@ -19,7 +19,7 @@ SELECT
     uprice,
     quantity,
     date_expiry,
-    dispensers.name as dispensers_name
+    dispensers.dispenser_name as dispensers_name
 FROM stocks
 LEFT JOIN dispensers
     ON stocks.dispenser_id = dispensers.dispenser_id

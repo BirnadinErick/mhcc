@@ -1,13 +1,13 @@
 [package]
 name = "mhcc"
-version = "0.3.0"
-description = "Mathagal Health Care Center"
+version = "0.3.1"
+description = "Mathagal Health Care Center Management App"
 authors = ["BirnadinErick"]
 license = "Private"
 repository = ""
 default-run = "mhcc"
 edition = "2021"
-rust-version = "1.63"
+rust-version = "1.66"
 
 [build-dependencies]
 tauri-build = { version = "1.0.4", features = [] }
@@ -19,7 +19,7 @@ tauri = { version = "1.0", features = ["system-tray"] }
 dotenvy = "0.15"
 tokio = { version = "1.20", features = ["full"] }
 chrono = { version = "0.4.22", features = ["serde"] }
-sqlx = {version="0.6", features = ["runtime-tokio-native-tls" , "postgres", "chrono", "bigdecimal"] }
+sqlx = {version="0.6", features = ["runtime-tokio-rustls" , "postgres", "chrono", "bigdecimal"] }
 async-trait = "0.1.60"
 
 [dev-dependencies]

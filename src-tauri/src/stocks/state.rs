@@ -8,7 +8,7 @@ impl StocksState {
         let query = format!(
             r#"
 UPDATE stocks
-SET 
+SET
     stock_name = '{}',
     uprice = {},
     date_expiry = '{}',
@@ -34,10 +34,10 @@ WHERE stock_id = {};
 SELECT
     stock_id,
      stock_name,
-    uprice, 
-    quantity, 
+    uprice,
+    quantity,
     date_expiry,
-    dispensers.name as dispensers_name
+    dispensers.dispenser_name as dispensers_name
 FROM stocks
 LEFT JOIN dispensers
     ON stocks.dispenser_id = dispensers.dispenser_id
@@ -45,35 +45,6 @@ WHERE stocks.search_tokens @@ plainto_tsquery($1)
 ORDER BY date_expiry ASC, stock_id ASC;
         "#,
             term
-        )
-        .fetch_all(pool)
-        .await
-        .unwrap();
-
-        stocks
-    }
-
-    pub async fn get(offset: i64, pool: &Pool) -> Vec<GetStock> {
-        let stocks: Vec<GetStock> = sqlx::query_as!(
-            GetStock,
-            r#"
-SELECT
-    stock_id,
-    stock_name,
-    uprice,
-    quantity,
-    date_expiry,
-    dispensers.name as dispensers_name
-FROM stocks
-LEFT JOIN dispensers
-    ON stocks.dispenser_id = dispensers.dispenser_id
-WHERE
-    date_expiry >= CURRENT_DATE + interval '+7 day' * $1
-        AND
-    date_expiry < CURRENT_DATE + interval '+7 day' + interval '+7 day' * $1
-ORDER BY date_expiry ASC, stock_id ASC;
-        "#,
-            offset as f64
         )
         .fetch_all(pool)
         .await
