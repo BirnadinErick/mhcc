@@ -23,8 +23,8 @@ use mhcc::{
 // BEGIN: tauri commands ======================================================
 
 #[tauri::command]
-async fn insert_stocks<'m>(new_stock: AddStock, pool: State<'m, Pool>) -> Result<u64, ()> {
-    Ok(StocksState::insert(new_stock, &*pool).await)
+async fn insert_stocks<'m>(new_stock: AddStock, pool: State<'m, PgAdapter>) -> Result<u64, ()> {
+    Ok(PgAdapter::add_stock(&pool, &new_stock).await)
 }
 
 #[tauri::command]

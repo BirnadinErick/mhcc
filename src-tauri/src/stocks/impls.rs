@@ -5,8 +5,24 @@ use crate::adapters::PgAdapter;
 
 #[async_trait]
 impl StockService for PgAdapter {
-    async fn add_stock(&self, add_stock: &AddStock) -> bool {
-        todo!("delete_stocks not implemented for PgStockService")
+    async fn add_stock(&self, add_stock: &AddStock) -> u64 {
+        let res = sqlx::query(
+            "
+INSERT INTO stocks(stock_name, uprice, quantity, date_expiry, staff_id, dispenser_id) VALUES (
+    $1, $2, $3, $4, 1, 100
+ );
+        ",
+        )
+        .bind(add_stock.stock_name.as_str())
+        .bind(add_stock.uprice)
+        .bind(add_stock.quantity)
+        .bind(add_stock.date_expiry)
+        .execute(&self.pool)
+        .await
+        .expect("add_stock failed");
+
+        res.rows_affected()
+
     }
 
     async fn get_stock(&self, offset: f64) -> Vec<GetStock> {
