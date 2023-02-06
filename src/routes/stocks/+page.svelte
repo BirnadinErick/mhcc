@@ -102,7 +102,7 @@
 		}
 
 		// invoke api
-		let stocks: Array<StocksGet> = await invoke('search_stocks', { term: term });
+		let stocks: Array<StocksGet> = await invoke('search_stocks', { query: term });
 
 		// set the data
 		data.set(stocks);
