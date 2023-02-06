@@ -1,10 +1,10 @@
 [package]
 name = "mhcc"
-version = "0.3.1"
+version = "0.3.3"
 description = "Mathagal Health Care Center Management App"
 authors = ["BirnadinErick"]
-license = "Private"
-repository = ""
+license = "Proprietary"
+repository = "https://github.com/BirnadinErick/mhcc"
 default-run = "mhcc"
 edition = "2021"
 rust-version = "1.66"
@@ -30,3 +30,24 @@ sqlx-database-tester = {version = "0.4.2", features = ["runtime-tokio"] }
 [features]
 default = ["custom-protocol"]
 custom-protocol = ["tauri/custom-protocol"]
+
+[profile.dev]
+opt-level = 0
+debug = 2
+debug-assertions = true
+overflow-checks = true
+lto = false
+incremental = true
+codegen-units = 256
+panic = "abort"
+
+[profile.release]
+opt-level = 3
+debug = 0
+strip = "symbols"
+debug-assertions = false
+overflow-checks = true
+lto = "fat"
+incremental = false
+codegen-units = 1
+panic = "unwind"
