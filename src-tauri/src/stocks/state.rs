@@ -27,32 +27,6 @@ WHERE stock_id = {};
         res.rows_affected()
     }
 
-    pub async fn search(term: String, pool: &Pool) -> Vec<GetStock> {
-        let stocks: Vec<GetStock> = sqlx::query_as!(
-            GetStock,
-            r#"
-SELECT
-    stock_id,
-     stock_name,
-    uprice,
-    quantity,
-    date_expiry,
-    dispensers.dispenser_name as dispensers_name
-FROM stocks
-LEFT JOIN dispensers
-    ON stocks.dispenser_id = dispensers.dispenser_id
-WHERE stocks.search_tokens @@ plainto_tsquery($1)
-ORDER BY date_expiry ASC, stock_id ASC;
-        "#,
-            term
-        )
-        .fetch_all(pool)
-        .await
-        .unwrap();
-
-        stocks
-    }
-
     pub async fn insert(new_stock: AddStock, pool: &Pool) -> u64 {
         // TODO: correct staff_stocked and dispenser_id
         let res = sqlx::query(

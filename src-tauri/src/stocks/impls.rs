@@ -47,7 +47,29 @@ ORDER BY date_expiry ASC, stock_id ASC;
     }
 
     async fn search_stock(&self, query: String) -> Vec<GetStock> {
-        panic!("search_stocks not implemented for PgStockService")
+        let stocks: Vec<GetStock> = sqlx::query_as!(
+            GetStock,
+            r#"
+SELECT
+    stock_id,
+     stock_name,
+    uprice,
+    quantity,
+    date_expiry,
+    dispensers.dispenser_name as dispensers_name
+FROM stocks
+LEFT JOIN dispensers
+    ON stocks.dispenser_id = dispensers.dispenser_id
+WHERE stocks.search_tokens @@ plainto_tsquery($1)
+ORDER BY date_expiry ASC, stock_id ASC;
+        "#,
+            query
+        )
+        .fetch_all(&self.pool)
+        .await
+        .unwrap();
+
+        stocks
     }
 
 }
