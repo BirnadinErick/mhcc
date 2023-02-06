@@ -5,14 +5,11 @@
 
 
 use dotenvy::dotenv;
-use sqlx::postgres::PgPoolOptions;
-use sqlx::PgPool as Pool;
 use std::env;
 use tauri::{
     CustomMenuItem, Manager, State, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
 };
 use mhcc::stocks::{
-    state::StocksState,
     models::GetStock, models::AddStock,
 };
 use mhcc::{
@@ -62,15 +59,15 @@ async fn main() {
         .add_item(quit);
     let tray = SystemTray::new().with_menu(tray_menu);
 
-    let pool = PgPoolOptions::new()
-        .max_connections(2)
-        .connect(&env::var("DATABASE_URL").unwrap())
-        .await
-        .expect("Failed to initiate database pool");
-
     tauri::Builder::default()
-        .manage(pool.clone())
-        .manage(PgAdapter {pool})
+        .manage(PgAdapter::new(
+			&env::var("DATABASE_URL")
+				.expect("env var DATABASE_URL not specified"),
+			env::var("MAX_CONN")
+				.expect("env var MAX_CONN not specified")
+				.parse::<u32>()
+				.expect("MAX_CONN could not be parsed to u32")
+		).await)
         .system_tray(tray)
         .on_system_tray_event(|app, event| {
             if let SystemTrayEvent::MenuItemClick { id, .. } = event {
