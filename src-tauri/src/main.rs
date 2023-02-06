@@ -12,7 +12,7 @@ use tauri::{
     CustomMenuItem, Manager, State, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
 };
 use mhcc::stocks::{
-    state::StocksState, 
+    state::StocksState,
     models::GetStock, models::AddStock,
 };
 use mhcc::{
@@ -38,8 +38,8 @@ async fn update_stocks<'m>(new_stock: GetStock, pool: State<'m, Pool>) -> Result
 }
 
 #[tauri::command]
-async fn search_stocks<'m>(term: String, pool: State<'m, Pool>) -> Result<Vec<GetStock>, ()> {
-    Ok(StocksState::search(term, &*pool).await)
+async fn search_stocks<'m>(query: String, pool: State<'m, PgAdapter>) -> Result<Vec<GetStock>, ()> {
+    Ok(PgAdapter::search_stock(&pool, query).await)
 }
 
 // END: Tauri commands ========================================================
