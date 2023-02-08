@@ -6,11 +6,13 @@
 	import AddNewItemOverlay from '$lib/components/AddNewItemOverlay.svelte';
 	import AddNewItemButton from '$lib/components/AddNewItemButton.svelte';
 	import PageHeader from '$lib/components/PageHeader.svelte';
-	import EditableTableCell from '$lib/components/EditableTableCell.svelte';
 
 	import { invoke } from '@tauri-apps/api/tauri';
 
 	import { onMount } from 'svelte';
+	import EditableCellLabelGenerator from '$lib/table/EditableCellLabel';
+	import type StocksGet from '$lib/models/StockModels';
+	import hasScrolledHalfWay from '$lib/utils/indicators';
 
 	var searchParam: string;
 	let searchElement: HTMLInputElement;
@@ -36,26 +38,6 @@
 
 		await invoke('insert_stocks', { newStock: new_stock });
 	}
-
-	// @ts-ignore
-	const EditableCellLabel /*: DataLabel<Sample>*/ = ({ column, row, value }) => {
-		return createRender(EditableTableCell, {
-			row,
-			column,
-			value,
-			onUpdateValue: updateData
-		});
-	};
-
-	type StocksGet = {
-		stock_id: number;
-		stock_name: string;
-		uprice: number;
-		quantity: number;
-		dispensers_name: string;
-		date_expiry: Date;
-	};
-	// var stocks: Array<StocksGet>;
 
 	// get data to populate
 	let data: Writable<Array<StocksGet>> = writable([]);
@@ -92,8 +74,9 @@
 			newStock: newItem
 		});
 
-		console.log(update_status);
+		console.debug(update_status);
 	}
+	const EditableCellLabel = EditableCellLabelGenerator(updateData);
 
 	async function search(term: string) {
 		// get backup
@@ -156,16 +139,6 @@
 		}
 	}
 
-	function hasScrolledHalfWay(): boolean {
-		return (
-			Math.abs(
-				tableContainerElement.scrollHeight -
-					tableContainerElement.clientHeight -
-					tableContainerElement.scrollTop
-			) < 4
-		);
-	}
-
 	function tableInfScroll() {
 		// TODO: discard prevoius data when scrolled to somewhat down
 		//  e.g. if row count exceeds 300, append new 100 and discard old 100 or 200
@@ -175,7 +148,7 @@
 			return;
 		}
 
-		if (hasScrolledHalfWay()) {
+		if (hasScrolledHalfWay(tableContainerElement)) {
 			scrollTimes++;
 			populateTable(scrollTimes);
 		}
@@ -265,7 +238,12 @@
 					<Subscribe rowAttrs={headerRow.attrs()} let:rowAttrs>
 						<tr {...rowAttrs} class="bg-emerald-200">
 							{#each headerRow.cells as cell (cell.id)}
-								<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
+								<Subscribe
+									attrs={cell.attrs()}
+									let:attrs
+									props={cell.props()}
+									let:props
+								>
 									<th
 										{...attrs}
 										class="py-3 px-6 border-black font-thin text-left  font-serif text-lg tracking-wider"
@@ -290,7 +268,10 @@
 						<tr {...rowAttrs} class="bg-white hover:bg-emerald-100">
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
-									<td {...attrs} class="border-b-[1px] border-gray-300 py-3 text-left px-6">
+									<td
+										{...attrs}
+										class="border-b-[1px] border-gray-300 py-3 text-left px-6"
+									>
 										<Render of={cell.render()} />
 									</td>
 								</Subscribe>
