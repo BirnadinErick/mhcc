@@ -13,6 +13,7 @@
 	import EditableCellLabelGenerator from '$lib/table/EditableCellLabel';
 	import type StocksGet from '$lib/models/StockModels';
 	import hasScrolledHalfWay from '$lib/utils/indicators';
+	import ButtonsCell from '$lib/table/ButtonsCell.svelte';
 
 	var searchParam: string;
 	let searchElement: HTMLInputElement;
@@ -37,6 +38,10 @@
 		};
 
 		await invoke('insert_stocks', { newStock: new_stock });
+	}
+
+	function createTableActionsButtonCell(bodyCell: any, state: any) {
+		return createRender(ButtonsCell);
 	}
 
 	// get data to populate
@@ -77,6 +82,7 @@
 		console.debug(update_status);
 	}
 	const EditableCellLabel = EditableCellLabelGenerator(updateData);
+	// const ButtonsCell = ButtonCellGenerator(() => true);
 
 	async function search(term: string) {
 		// get backup
@@ -170,10 +176,10 @@
 	});
 
 	const columns = table.createColumns([
-		table.column({
-			header: 'ID',
-			accessor: 'stock_id'
-		}),
+		// table.column({
+		// 	header: 'ID',
+		// 	accessor: 'stock_id'
+		// }),
 		table.column({
 			header: 'Stock Name',
 			accessor: 'stock_name',
@@ -183,7 +189,7 @@
 			}
 		}),
 		table.column({
-			header: 'Unit Price',
+			header: 'Price',
 			accessor: 'uprice',
 			cell: EditableCellLabel
 		}),
@@ -193,13 +199,18 @@
 			cell: EditableCellLabel
 		}),
 		table.column({
-			header: 'Expirying Date',
+			header: 'Ex. Date',
 			accessor: 'date_expiry',
 			cell: EditableCellLabel
 		}),
 		table.column({
 			header: 'Dispenser',
 			accessor: 'dispensers_name'
+		}),
+		table.display({
+			header: 'Actions',
+			cell: createTableActionsButtonCell,
+			id: 'stock_id'
 		})
 	]);
 
