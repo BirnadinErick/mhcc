@@ -25,7 +25,7 @@ INSERT INTO stocks(stock_name, uprice, quantity, date_expiry, staff_id, dispense
 
     }
 
-    async fn get_stock(&self, offset: f64) -> Vec<GetStock> {
+    async fn get_stocks(&self, offset: f64) -> Vec<GetStock> {
         let stocks: Vec<GetStock> = sqlx::query_as!(
             GetStock,
             r#"

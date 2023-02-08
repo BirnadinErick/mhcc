@@ -12,6 +12,9 @@ use tauri::{
 use mhcc::stocks::{
     models::GetStock, models::AddStock,
 };
+use mhcc::patients::{
+    models::GetPatient, models::AddPatient,
+};
 use mhcc::{
     ports::*,
     adapters::PgAdapter
@@ -26,7 +29,7 @@ async fn insert_stocks<'m>(new_stock: AddStock, pool: State<'m, PgAdapter>) -> R
 
 #[tauri::command]
 async fn get_stocks<'m>(off_set: i64, pool: State<'m, PgAdapter>) -> Result<Vec<GetStock>, ()> {
-    Ok(PgAdapter::get_stock(&pool, off_set as f64).await)
+    Ok(PgAdapter::get_stocks(&pool, off_set as f64).await)
 }
 
 #[tauri::command]
@@ -37,6 +40,28 @@ async fn update_stocks<'m>(new_stock: GetStock, pool: State<'m, PgAdapter>) -> R
 #[tauri::command]
 async fn search_stocks<'m>(query: String, pool: State<'m, PgAdapter>) -> Result<Vec<GetStock>, ()> {
     Ok(PgAdapter::search_stock(&pool, query).await)
+}
+
+// -----------------------------------------------------------------------------
+
+#[tauri::command]
+async fn insert_patient<'m>(new_patient: AddPatient, pool: State<'m, PgAdapter>) -> Result<u64, ()> {
+    Ok(PgAdapter::add_patient(&pool, &new_patient).await)
+}
+
+#[tauri::command]
+async fn get_patients<'m>(off_set: i64, pool: State<'m, PgAdapter>) -> Result<Vec<GetPatient>, ()> {
+    Ok(PgAdapter::get_patients(&pool, off_set as f64).await)
+}
+
+#[tauri::command]
+async fn update_patient<'m>(new_stock: GetPatient, pool: State<'m, PgAdapter>) -> Result<u64, ()> {
+    Ok(PgAdapter::update_patient(&pool, new_stock).await)
+}
+
+#[tauri::command]
+async fn search_patients<'m>(query: String, pool: State<'m, PgAdapter>) -> Result<Vec<GetPatient>, ()> {
+    Ok(PgAdapter::search_patient_by_name(&pool, query).await)
 }
 
 // END: Tauri commands ========================================================

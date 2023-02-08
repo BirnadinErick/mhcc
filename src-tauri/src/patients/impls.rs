@@ -26,7 +26,7 @@ VALUES (
         res.rows_affected()
 	}
 
-    async fn get_patient(&self, offset: f64) -> Vec<GetPatient> {
+    async fn get_patients(&self, offset: f64) -> Vec<GetPatient> {
 		let patients: Vec<GetPatient> = sqlx::query_as!(
             GetPatient,
             r#"
