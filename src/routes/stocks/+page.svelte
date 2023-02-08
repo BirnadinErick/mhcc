@@ -213,7 +213,7 @@
 </svelte:head>
 
 <div class="flex justify-between my-2 lg:mx-8 mx-2">
-	<PageHeader />
+	<PageHeader headerTitle="Stocks." />
 	<div class="flex justify-between items-center space-x-4">
 		<div class="flex items-center space-x-2">
 			<input

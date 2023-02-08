@@ -55,8 +55,8 @@ async fn get_patients<'m>(off_set: i64, pool: State<'m, PgAdapter>) -> Result<Ve
 }
 
 #[tauri::command]
-async fn update_patient<'m>(new_stock: GetPatient, pool: State<'m, PgAdapter>) -> Result<u64, ()> {
-    Ok(PgAdapter::update_patient(&pool, new_stock).await)
+async fn update_patient<'m>(new_patient: GetPatient, pool: State<'m, PgAdapter>) -> Result<u64, ()> {
+    Ok(PgAdapter::update_patient(&pool, new_patient).await)
 }
 
 #[tauri::command]
