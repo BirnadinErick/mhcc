@@ -1,5 +1,6 @@
 use async_trait::async_trait;
 use crate::stocks::models::*;
+use crate::patients::models::*;
 
 #[cfg_attr(test, mockall::automock)]
 #[async_trait]
@@ -14,7 +15,7 @@ pub trait StockService: {
 #[cfg_attr(test, mockall::automock)]
 #[async_trait]
 pub trait PatientService: {
-    async fn add_patient(&self, add_patient: &AddPatient) -> u64;
+    async fn add_patient(&self, add_patient: AddPatient) -> u64;
     async fn get_patients(&self, offset: f64) -> Vec<GetPatient>;
     async fn update_patient(&self, updated_patient: GetPatient) -> u64;
     async fn search_patient_by_name(&self, query: String) -> Vec<GetPatient>;

@@ -46,7 +46,7 @@ async fn search_stocks<'m>(query: String, pool: State<'m, PgAdapter>) -> Result<
 
 #[tauri::command]
 async fn insert_patient<'m>(new_patient: AddPatient, pool: State<'m, PgAdapter>) -> Result<u64, ()> {
-    Ok(PgAdapter::add_patient(&pool, &new_patient).await)
+    Ok(PgAdapter::add_patient(&pool, new_patient).await)
 }
 
 #[tauri::command]
@@ -117,7 +117,11 @@ async fn main() {
             get_stocks,
             search_stocks,
             update_stocks,
-            insert_stocks
+            insert_stocks,
+			get_patients,
+            search_patients,
+            update_patient,
+            insert_patient
         ])
         .run(tauri::generate_context!())
         .expect("couldn't start MHCC!");

@@ -4,8 +4,8 @@ use crate::ports::PatientService;
 use crate::adapters::PgAdapter;
 
 #[async_trait]
-impl StockService for PgAdapter {
-	async fn add_patient(&self, add_patient: &AddPatient) -> u64 {
+impl PatientService for PgAdapter {
+	async fn add_patient(&self, add_patient: AddPatient) -> u64 {
 		let res = sqlx::query(
             "
 INSERT INTO patients(patient_name, address, tpno, dob, nic)
@@ -44,7 +44,7 @@ WHERE
 	patient_id <= 100 + 100 * $1
 ORDER BY patient_id,patient_name ASC
         "#,
-            offset
+            offset as i32
         )
         .fetch_all(&self.pool)
         .await
