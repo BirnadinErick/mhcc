@@ -22,3 +22,9 @@ pub trait PatientService: {
     async fn search_patient_by_nic(&self, query: String) -> Vec<GetPatient>;
     // async fn delete_stock(&self, id: i64) -> bool;
 }
+
+#[cfg_attr(test, mockall::automock)]
+#[async_trait]
+pub trait GRNService: {
+    async fn save_grn(&self, stock_id:i64, quantity:i64, staff_id:i64) -> bool;
+}

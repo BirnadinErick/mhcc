@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { DeleteModalState, DeleteItemState } from '$lib/stores/ModalStore';
+	import {
+		GRNModalState,
+		DeleteModalState,
+		DeleteItemState,
+		GRNItemState
+	} from '$lib/stores/ModalStore';
 	export let stock_id: number;
 
 	function log(stockid: number) {
@@ -11,14 +16,15 @@
 		$DeleteItemState = stock_id;
 	}
 
-	function add_grn() {
-		return;
+	function show_grn() {
+		$GRNModalState = true;
+		$GRNItemState = stock_id;
 	}
 </script>
 
 <div>
 	<div class="flex items-center justify-start my-1 space-x-4">
-		<button class="overlay-btn hover:bg-sky-200 ring-bg-sky-200" on:click={() => add_grn()}
+		<button class="overlay-btn hover:bg-sky-200 ring-bg-sky-200" on:click={() => show_grn()}
 			>GRN</button
 		>
 

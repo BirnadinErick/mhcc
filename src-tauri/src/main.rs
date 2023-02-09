@@ -69,6 +69,15 @@ async fn search_patients<'m>(query: String, pool: State<'m, PgAdapter>) -> Resul
     Ok(PgAdapter::search_patient_by_name(&pool, query).await)
 }
 
+// -----------------------------------------------------------------------------
+
+#[tauri::command]
+async fn save_grn<'m>(
+	stock_id:i64, quantity:i64, staff_id:i64, pool: State<'m, PgAdapter>
+) -> Result<bool, ()> {
+    Ok(PgAdapter::save_grn(&pool, stock_id, quantity, staff_id).await)
+}
+
 // END: Tauri commands ========================================================
 
 #[tokio::main]
@@ -127,7 +136,8 @@ async fn main() {
 			get_patients,
             search_patients,
             update_patient,
-            insert_patient
+            insert_patient,
+			save_grn
         ])
         .run(tauri::generate_context!())
         .expect("couldn't start MHCC!");

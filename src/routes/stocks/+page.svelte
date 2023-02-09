@@ -16,7 +16,8 @@
 	import ButtonsCell from '$lib/table/ButtonsCell.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import DeleteModalChild from '$lib/components/DeleteModalChild.svelte';
-	import { DeleteItemState, DeleteModalState } from '$lib/stores/ModalStore';
+	import GRNModal from '$lib/components/GRNModal.svelte';
+	import { DeleteItemState, DeleteModalState, GRNModalState } from '$lib/stores/ModalStore';
 
 	var searchParam: string;
 	let searchElement: HTMLInputElement;
@@ -193,10 +194,6 @@
 	});
 
 	const columns = table.createColumns([
-		// table.column({
-		// 	header: 'ID',
-		// 	accessor: 'stock_id'
-		// }),
 		table.column({
 			header: 'Stock Name',
 			accessor: 'stock_name',
@@ -369,6 +366,10 @@
 	</div>
 </AddNewItemOverlay>
 
-<Modal>
+<Modal trigger={DeleteModalState}>
 	<DeleteModalChild item="stock" callback={() => delete_stock($DeleteItemState)} />
+</Modal>
+
+<Modal trigger={GRNModalState}>
+	<GRNModal />
 </Modal>
