@@ -116,6 +116,12 @@
 			//  with random value
 			//  e.g. in PostgreSQL and Rust = 442.23 --> in JSVm = 442.23569874512685432154
 			stocks[idx].uprice = parseFloat(element.uprice.toFixed(2));
+
+			// truncate the dispenser name
+			stocks[idx].dispensers_name =
+				stocks[idx].dispensers_name.length > 20
+					? stocks[idx].dispensers_name.slice(0, 19) + '...'
+					: stocks[idx].dispensers_name;
 		});
 
 		// to be valid when called due to user-scroll
