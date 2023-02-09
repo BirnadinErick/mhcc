@@ -1,11 +1,30 @@
 <script lang="ts">
+	import { DeleteModalState, DeleteItemState } from '$lib/stores/ModalStore';
+	export let stock_id: number;
+
+	function log(stockid: number) {
+		console.log(stockid);
+	}
+
+	function show_delete_stock() {
+		$DeleteModalState = true;
+		$DeleteItemState = stock_id;
+	}
+
+	function add_grn() {
+		return;
+	}
 </script>
 
 <div>
 	<div class="flex items-center justify-start my-1 space-x-4">
-		<button class="overlay-btn hover:bg-sky-200 ring-bg-sky-200">GRN</button>
+		<button class="overlay-btn hover:bg-sky-200 ring-bg-sky-200" on:click={() => add_grn()}
+			>GRN</button
+		>
 
-		<button class="overlay-btn hover:bg-red ring-red" on:click={() => true}>Delete</button>
+		<button class="overlay-btn hover:bg-red ring-red" on:click={() => show_delete_stock()}
+			>Delete</button
+		>
 	</div>
 </div>
 

@@ -46,7 +46,7 @@
 	];
 </script>
 
-<main class="h-screen bg-slate-200 flex w-full cursor-default">
+<main class="h-screen bg-slate-200 flex w-full cursor-default antialiased">
 	<nav
 		class="bg-green w-16 py-8 px-2 flex flex-col justify-center items-center overflow-y-auto overflow-x-hidden flex-shrink-0"
 	>

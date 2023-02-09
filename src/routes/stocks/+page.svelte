@@ -14,6 +14,9 @@
 	import type StocksGet from '$lib/models/StockModels';
 	import hasScrolledHalfWay from '$lib/utils/indicators';
 	import ButtonsCell from '$lib/table/ButtonsCell.svelte';
+	import Modal from '$lib/components/Modal.svelte';
+	import DeleteModalChild from '$lib/components/DeleteModalChild.svelte';
+	import { DeleteItemState, DeleteModalState } from '$lib/stores/ModalStore';
 
 	var searchParam: string;
 	let searchElement: HTMLInputElement;
@@ -40,8 +43,16 @@
 		await invoke('insert_stocks', { newStock: new_stock });
 	}
 
-	function createTableActionsButtonCell(bodyCell: any, state: any) {
-		return createRender(ButtonsCell);
+	async function delete_stock(stock_id: number) {
+		const delete_status = await invoke('delete_stock', { id: stock_id });
+		if (delete_status) {
+			$DeleteModalState = false;
+		}
+		document.location.reload();
+	}
+
+	function createTableActionsButtonCell({ row }: any, _: any) {
+		return createRender(ButtonsCell, { stock_id: row.original.stock_id });
 	}
 
 	// get data to populate
@@ -351,3 +362,7 @@
 		/>
 	</div>
 </AddNewItemOverlay>
+
+<Modal>
+	<DeleteModalChild item="stock" callback={() => delete_stock($DeleteItemState)} />
+</Modal>
