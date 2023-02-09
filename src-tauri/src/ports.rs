@@ -9,7 +9,7 @@ pub trait StockService: {
     async fn get_stocks(&self, offset: f64) -> Vec<GetStock>;
     async fn update_stock(&self, updated_stock: GetStock) -> u64;
     async fn search_stock(&self, query: String) -> Vec<GetStock>;
-    // async fn delete_stock(&self, id: i64) -> bool;
+    async fn delete_stock(&self, id: i64) -> bool;
 }
 
 #[cfg_attr(test, mockall::automock)]

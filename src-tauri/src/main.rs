@@ -42,6 +42,11 @@ async fn search_stocks<'m>(query: String, pool: State<'m, PgAdapter>) -> Result<
     Ok(PgAdapter::search_stock(&pool, query).await)
 }
 
+#[tauri::command]
+async fn delete_stock<'m>(id: i64, pool: State<'m, PgAdapter>) -> Result<bool, ()> {
+    Ok(PgAdapter::delete_stock(&pool, id).await)
+}
+
 // -----------------------------------------------------------------------------
 
 #[tauri::command]
@@ -118,6 +123,7 @@ async fn main() {
             search_stocks,
             update_stocks,
             insert_stocks,
+			delete_stock,
 			get_patients,
             search_patients,
             update_patient,

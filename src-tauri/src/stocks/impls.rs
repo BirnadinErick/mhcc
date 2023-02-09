@@ -80,9 +80,23 @@ WHERE stock_id = {};
         res.rows_affected()
     }
 
-    // async fn delete_stock(&self, _id: i64) -> bool {
-    //     todo!("delete_stocks not implemented for PgAdapter")
-    // }
+    async fn delete_stock(&self, id: i64) -> bool {
+        let res = sqlx::query(
+            "
+DELETE FROM stocks WHERE stock_id = $1
+        ",
+        )
+        .bind(id)
+        .execute(&self.pool)
+        .await
+        .expect("delete_stock failed");
+
+        if res.rows_affected() == 1 {
+			true
+		}else {
+			false
+		}
+    }
 
     async fn search_stock(&self, query: String) -> Vec<GetStock> {
         let stocks: Vec<GetStock> = sqlx::query_as!(
