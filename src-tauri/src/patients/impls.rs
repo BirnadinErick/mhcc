@@ -107,7 +107,7 @@ ORDER BY patient_id ASC, patient_name ASC;
         patients
     }
 
-    async fn search_patient_by_nic(&self, query: String) -> Vec<GetPatient> {
+    async fn search_patient_by_nic(&self, _query: String) -> Vec<GetPatient> {
 		todo!("search_patient_by_nic not yet implemented")
 	}
 

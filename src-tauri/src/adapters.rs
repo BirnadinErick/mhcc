@@ -1,7 +1,9 @@
+use std::collections::BTreeMap;
 use sqlx::postgres::PgPoolOptions;
 
 pub struct PgAdapter {
     pub pool: sqlx::PgPool,
+	pub d_index: Option<BTreeMap<String, i32>>,
 }
 
 
@@ -13,6 +15,6 @@ impl PgAdapter {
         .await
         .expect("Failed to initiate database pool");
 
-		PgAdapter {pool}
+		PgAdapter {pool, d_index:None}
     }
 }

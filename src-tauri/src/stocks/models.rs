@@ -17,4 +17,5 @@ pub struct AddStock {
     pub uprice: f32,
     pub quantity: i32,
     pub date_expiry: NaiveDate,
+    pub dispenser_name: String,
 }

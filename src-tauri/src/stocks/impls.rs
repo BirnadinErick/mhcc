@@ -1,15 +1,28 @@
+
 use async_trait::async_trait;
 use super::models::*;
-use crate::ports::StockService;
+use crate::ports::{StockService, DispenserService};
 use crate::adapters::PgAdapter;
 
 #[async_trait]
 impl StockService for PgAdapter {
     async fn add_stock(&self, add_stock: &AddStock) -> u64 {
+		let d_index = &self.d_index.as_ref().expect("d_index is yet not initialized");
+		let d_id = if let Some(value) = d_index.get(&add_stock.dispenser_name) {
+			*value
+		}else {
+			// create new dispensar
+			let new_d_id = &self.add_dispenser(add_stock.dispenser_name.clone()).await;
+			//  insert the id
+			// d_index.insert(add_stock.dispenser_name.clone(), new_d_id.clone());
+			// return the id
+			*new_d_id
+		};
+
         let res = sqlx::query(
             "
 INSERT INTO stocks(stock_name, uprice, quantity, date_expiry, staff_id, dispenser_id) VALUES (
-    $1, $2, $3, $4, 1, 100
+    $1, $2, $3, $4, 1, $5
  );
         ",
         )
@@ -17,6 +30,7 @@ INSERT INTO stocks(stock_name, uprice, quantity, date_expiry, staff_id, dispense
         .bind(add_stock.uprice)
         .bind(add_stock.quantity)
         .bind(add_stock.date_expiry)
+        .bind(d_id)
         .execute(&self.pool)
         .await
         .expect("add_stock failed");

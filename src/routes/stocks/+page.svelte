@@ -38,7 +38,8 @@
 			stock_name: stock_name,
 			uprice: uprice,
 			quantity: quantity,
-			date_expiry: date_expiry
+			date_expiry: date_expiry,
+			dispenser_name: dispensers_name
 		};
 
 		await invoke('insert_stocks', { newStock: new_stock });

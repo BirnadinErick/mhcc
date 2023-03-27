@@ -3,7 +3,6 @@
     windows_subsystem = "windows"
 )]
 
-
 use dotenvy::dotenv;
 use std::env;
 use tauri::{
@@ -98,15 +97,20 @@ async fn main() {
         .add_item(quit);
     let tray = SystemTray::new().with_menu(tray_menu);
 
+	let mut dbadapter = PgAdapter::new(
+		&env::var("DATABASE_URL")
+			.expect("env var DATABASE_URL not specified"),
+		env::var("MAX_CONN")
+			.expect("env var MAX_CONN not specified")
+			.parse::<u32>()
+			.expect("MAX_CONN could not be parsed to u32")
+	).await;
+
+	let d_index = dbadapter.make_dispensers_index().await;
+	dbadapter.d_index = Some(d_index);
+
     tauri::Builder::default()
-        .manage(PgAdapter::new(
-			&env::var("DATABASE_URL")
-				.expect("env var DATABASE_URL not specified"),
-			env::var("MAX_CONN")
-				.expect("env var MAX_CONN not specified")
-				.parse::<u32>()
-				.expect("MAX_CONN could not be parsed to u32")
-		).await)
+        .manage(dbadapter)
         .system_tray(tray)
         .on_system_tray_event(|app, event| {
             if let SystemTrayEvent::MenuItemClick { id, .. } = event {

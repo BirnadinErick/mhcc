@@ -1,3 +1,4 @@
+use std::collections::BTreeMap;
 use async_trait::async_trait;
 use crate::stocks::models::*;
 use crate::patients::models::*;
@@ -10,7 +11,7 @@ pub trait StockService: {
     async fn update_stock(&self, updated_stock: GetStock) -> u64;
     async fn search_stock(&self, query: String) -> Vec<GetStock>;
     async fn delete_stock(&self, id: i64) -> bool;
-}
+	}
 
 #[cfg_attr(test, mockall::automock)]
 #[async_trait]
@@ -27,4 +28,11 @@ pub trait PatientService: {
 #[async_trait]
 pub trait GRNService: {
     async fn save_grn(&self, stock_id:i64, quantity:i64, staff_id:i64) -> bool;
+}
+
+#[cfg_attr(test, mockall::automock)]
+#[async_trait]
+pub trait DispenserService: {
+    async fn add_dispenser(&self, dispenser_name:String) -> i32;
+    async fn make_dispensers_index(&self) -> BTreeMap<String, i32>;
 }
