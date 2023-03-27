@@ -61,6 +61,8 @@
 			link: ''
 		}
 	];
+
+	let notification = false;
 </script>
 
 <svelte:head>
@@ -82,7 +84,8 @@
 
 		<div class="mr-8 overflow-hidden select-none cursor-default">
 			<div class="grid grid-cols-3 grid-rows-3 gap-4">
-				{#each ks as k}
+				<!-- TODO: enable stats -->
+				<!-- {#each ks as k}
 					<div
 						class="bg-white text-indigo p-4 shadow-md hover:shadow-xl transition-shadow ease-in-out text-center"
 					>
@@ -90,7 +93,8 @@
 						<p class="mt-1 font-mono text-4xl">{Math.ceil(k * Math.random() * 30)}</p>
 						<p class="mt-1 font-sans text-sm uppercase">items</p>
 					</div>
-				{/each}
+				{/each} -->
+				<p class="text-gray-500">Not enough data to show stats!</p>
 			</div>
 		</div>
 	</div>
@@ -98,13 +102,22 @@
 	<div class="bg-white w-72 px-4 py-4 select-none cursor-default overflow-hidden h-full">
 		<div class="flex justify-between">
 			<h2 class="text-2xl font-serif">Notifications</h2>
-			<span class="cursor-pointer"><a href="/notifications">👉</a></span>
+			<!-- TODO!: enable notifications links -->
+			<!-- <span class="cursor-pointer"><a href="/notifications">👉</a></span> -->
 		</div>
 		<div class="overflow-y-auto">
-			<div class="cursor-pointer flex-col justify-evenly my-4 h-screen overflow-y-auto space-y-3">
-				{#each notifications as notification}
-					<Notification {notification} />
-				{/each}
+			<div
+				class="cursor-pointer flex-col justify-evenly my-4 h-screen overflow-y-auto space-y-3"
+			>
+				<!-- TODO!: enable notifications  -->
+
+				{#if notification}
+					{#each notifications as notification}
+						<Notification {notification} />
+					{/each}
+				{:else}
+					<p>No notifications!</p>
+				{/if}
 			</div>
 		</div>
 	</div>
