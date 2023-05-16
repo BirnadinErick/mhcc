@@ -19,7 +19,7 @@
 		},
 		"bundle": {
 			"active": true,
-			"category": "ECommerce",
+			"category": "Finance",
 			"copyright": "All Rights Reserved by Birnadin Erick 2022",
 			"deb": {
 				"depends": []

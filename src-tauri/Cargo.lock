@@ -1722,7 +1722,7 @@ dependencies = [
 
 [[package]]
 name = "mhcc"
-version = "0.3.3"
+version = "3.5.0"
 dependencies = [
  "async-trait",
  "chrono",
